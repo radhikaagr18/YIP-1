@@ -1,8 +1,9 @@
 import io,os
 from app import app
 import sqlite3 as sql
-from flask import jsonify,flash,request,Blueprint,g,send_from_directory,redirect,url_for,render_template,session,abort
-from werkzeug import generate_password_hash, check_password_hash,secure_filename
+from flask import Flask,jsonify,flash,request,Blueprint,g,send_from_directory,redirect,url_for,render_template,session,abort
+from werkzeug.security import generate_password_hash,check_password_hash
+from werkzeug.utils import secure_filename
 from flask_restful import Api,Resource,fields
 from passlib.hash import pbkdf2_sha256 as sha256
 from marshmallow import Schema,fields as ma_fields,post_load
@@ -16,7 +17,7 @@ import jwt
 import datetime
 from flask_simplelogin import SimpleLogin, get_username, login_required
 import os
-from flask import Flask
+
 
 app=Flask(__name__)
 app.config['SECRET_KEY'] = 'the quick brown fox jumps over the lazy dog'
@@ -32,6 +33,14 @@ global token
 
 
 import unittest
+
+
+
+class User:
+  def __init__(self, email, password):
+    self.email = email
+    self.password = password
+
 
 def encode_auth_token(user_id):
     try:
